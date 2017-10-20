@@ -25,5 +25,3 @@ const ls_color = () => {
 };
 
 module.exports = exports = ls_color;
-
-console.log(ls_color());
