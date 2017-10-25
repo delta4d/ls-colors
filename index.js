@@ -1,27 +1,13 @@
 'use strict';
 
-const { execSync } = require('child_process');
+const ls_colors = (() => {
+    const c = process.env.LS_COLORS;
+    if (!c) return undefined;
+    return c.split(':').reduce((acc, cur) => {
+        const [k, v] = cur.split('=');
+        if (k) acc[k] = v;
+        return acc;
+    }, {});
+})();
 
-const ls_color = () => {
-    let _terms  = [];
-    let _colors = {};
-
-    execSync('dircolors --print-database').toString().split('\n').forEach((e) => {
-        e = e.replace(/#.*$/, '').trim();
-        if (e) {
-            const [k, v] = e.split(/\s+/);
-            if (k === 'TERM') {
-                _terms.push(v);
-            } else {
-                _colors[k] = v;
-            }
-        }
-    });
-
-    return {
-        'TERMS':  _terms,
-        'COLORS': _colors,
-    };
-};
-
-module.exports = exports = ls_color;
+module.exports = exports = ls_colors;
